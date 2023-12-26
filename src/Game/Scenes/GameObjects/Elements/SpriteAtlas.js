@@ -1,38 +1,42 @@
+const we = 64;
+const he = 64
+
+
 const ElementsSpriteAtlas = [
     {
         name: "fire",
         dx: 0,
         dy: 0,
-        width: 64,
-        height: 64
+        width: we,
+        height: he
     },
     {
         name: "water",
-        dx: 64,
+        dx: we,
         dy: 0,
-        width: 64,
-        height: 64
+        width: we,
+        height: he
     },
     {
         name: "nature",
-        dx: 128,
+        dx: we*2,
         dy: 0,
-        width: 64,
-        height: 64
+        width: we,
+        height: he
     },
     {
         name: "earth",
-        dx: 192,
+        dx: we*3,
         dy: 0,
-        width: 64,
-        height: 64
+        width: we,
+        height: he
     },
     {
         name: "wind",
-        dx: 256,
+        dx: we*4,
         dy: 0,
-        width: 64,
-        height: 64
+        width: we,
+        height: he
     },
     {
         name: "fire_select",
