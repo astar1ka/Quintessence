@@ -6,6 +6,9 @@ class SceneObject{
     x = 0;
     y = 0;
     z = 0;
+
+    visible = true;
+    
     sprite = {
         name: '',
         width: 0,

@@ -32,7 +32,7 @@ class BattleGround{
 
     newBattle(){
         this.player.restore(this.lastPower);
-        Object.values(this.nodes).forEach(node => node.element.setPower(powers[Math.round(Math.random()*4)]));
+        Object.values(this.nodes).forEach(node => node.element.setPower(powers[Math.round(Math.abs(Math.random()*5-0.501))]));
     }
 
     fullCheck(id){
@@ -83,7 +83,7 @@ class BattleGround{
             this.fullCheck(node2.id);
             if (this.player.actions === 0) {
                 this.enemy.attack(this.player.hero);
-                setTimeout(() => this.newBattle(), 3000);
+                setTimeout(() => this.newBattle(), 1000);
             }
         }
     }
