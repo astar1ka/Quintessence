@@ -31,8 +31,8 @@ class GameScene extends Scene {
         this.background = new RenderArea(this._canvas,0,0,this.canvas.width,this.canvas.height);
         this.ui = new RenderArea(this._canvas,0,0,800,450);
         this.renderArea = new RenderArea(this._canvas,50,150,256,256);
-        this.battleArea = new RenderArea(this._canvas,280,250,280,280);
-        this.enemyArea = new RenderArea(this._canvas,400,150,256,256);
+        this.battleArea = new RenderArea(this._canvas,280,0,280,400);
+        this.enemyArea = new RenderArea(this._canvas,470,150,256,256);
     }
 
     async create() {
@@ -56,8 +56,8 @@ class GameScene extends Scene {
         this.ui.addRenderObject(this.hpMeter);
         Object.keys(this.battleground.nodes).forEach(nodeId => {
             const obj = new Element(this.battleground.nodes[nodeId], this.battleground);
-            obj.x = 280 + nodeId % 5 * 30;
-            obj.y = 250 + Math.trunc(nodeId / 5)*30;
+            obj.x = 325 + nodeId % 5 * 30;
+            obj.y = 150 + Math.trunc(nodeId / 5)*30;
             obj.setScale(0.4);
             this.battleArea.addRenderObject(obj);
             this.gameObjects.push(obj);
@@ -67,14 +67,14 @@ class GameScene extends Scene {
         this.background.addChild(this.enemyArea);
         this.background.addChild(this.ui);
         this._reverse = true;
-        this.enemy.x = 400;
-        this.enemy.y = 200;
+        this.enemy.x = 480;
+        this.enemy.y = 140;
         this.enemy.setScale(1);
-        this.hero.x = 0;
-        this.hero.y = 180;
+        this.hero.x = -100;
+        this.hero.y = 80;
         this.hero.z = 1;
         this.hero.body = {
-            dx: 100,
+            dx: 150,
             dy: 100,
             width: 150,
             height: 150
@@ -99,7 +99,7 @@ class GameScene extends Scene {
             pointX += 20;
         })
 
-        this.hero.setScale(0.75);
+        this.hero.setScale(1);
         this.renderArea.addRenderObject(this.hero);
         this.enemyArea.addRenderObject(this.enemy);
         this.battleground.newBattle();

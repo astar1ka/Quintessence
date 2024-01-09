@@ -1,7 +1,7 @@
 const GoblinAnimations = {
     idle: {
-        maxStep: 15,
-        stepOnFrame: 4
+        maxStep: 19,
+        stepOnFrame: 5
     },
     atk: {
         maxStep: 31,
