@@ -8,8 +8,6 @@ class SceneManager{
         this.gameScreen.onclick = (event) => console.log(event);
     }
 
-
-
     add(scene){
         this.scenes[scene.getName()] = {
             scene: scene,

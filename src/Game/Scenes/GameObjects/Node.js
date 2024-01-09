@@ -10,5 +10,4 @@ class NodeField{
     canMove(node){
         return Object.values(this.paths).includes(node);
     }
-
 }

@@ -7,14 +7,12 @@ class Canvas {
         this._resources = resources;
     }
 
-
-
     draw(obj){
         const image = this._resources.get(obj.sprite.name);
         this._context.save();
         let x = obj.x;
         let scaleX = obj.scaleX;
-        if (obj.reverse) {
+        if (obj.sprite.reverse) {
             x = -x - image.width * obj.scaleX;
             scaleX *= -1;
         }
