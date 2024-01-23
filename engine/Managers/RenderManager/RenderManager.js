@@ -1,5 +1,5 @@
 class RenderManager{
-    constructor(){
+    constructor(gameScreen){
         
     }
 }

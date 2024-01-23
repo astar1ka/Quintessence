@@ -32,7 +32,7 @@ class ResourceManager{
         };
     }
 
-    loadSpriteMap(src, atlas){
+    async loadSpriteMap(src, atlas){
         return new Promise((resolve) => {
             const image = new Image();
             image.src = src;

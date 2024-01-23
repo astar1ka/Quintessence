@@ -14,15 +14,17 @@ scripts.forEach(script =>
 class Game{
 
     constructor(config){
+        const gameScreen = document.getElementById(config.canvas);
         this.managers = {
             events: new EventManager(this),
             resources: new ResourceManager(),
-            render: new RenderManager(),
+            render: new RenderManager(gameScreen),
             data: new DataManager(),
             logic: new LogicManager(),
-            area: new AreaManager()
+            area: new AreaManager(),
+            scenes: new SceneManager()
         }
-        this.gameScreen = document.getElementById(config.canvas);
+        this.gameScreen = gameScreen;
         this.gameScreen.width = config.width;
         this.gameScreen.height = config.height;
         this.SceneManager = new SceneManager(config.scenes, this.gameScreen);

@@ -4,7 +4,6 @@ class Scene{
 
     constructor(name, config){
         this._name = name;
-        //this._gameObjects = new GameObjectManager();
         this._resources = new ResourceManager();
         this._canvas = new Canvas(1600,900, this._resources);
         this._renderManager = {};
