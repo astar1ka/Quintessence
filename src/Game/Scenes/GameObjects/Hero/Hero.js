@@ -28,6 +28,12 @@ class Hero extends SceneObject{
         this.spritesName = spritesName;
         this.animations = HeroAnimations;
         this.setAnimation('idle');
+        this.body = {
+            dx: 150,
+            dy: 100,
+            width: 150,
+            height: 150
+        }
     }
 
     play(){

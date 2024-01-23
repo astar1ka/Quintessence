@@ -1,4 +1,8 @@
 class ResourceManager{
+
+    constructor(){
+        
+    }
     
 
     _resources = {};

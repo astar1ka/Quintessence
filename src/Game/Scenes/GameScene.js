@@ -22,6 +22,7 @@ class GameScene extends Scene {
     async preload() {
         await this._load('hpbar', "./src/assets/sprites/HPBar.png");
         await this._load('hpmeter', "./src/assets/sprites/HPMeter.png");
+        await this._load('energymeter', "./src/assets/sprites/EnergyMeter.png");
         await this._load('back', "./src/assets/backgrounds/MainBackground.png");
         await this._load('back_1', "./src/assets/backgrounds/Background_1.png");
         await this._resources.loadSpriteMap("./src/assets/sprites/Hero.png", HeroSpriteAtlas);
@@ -49,11 +50,18 @@ class GameScene extends Scene {
         this.hpMeter.x = 10;
         this.hpMeter.y = 10;
         this.hpMeter.setScale(0.5);
+
+        this.energyMeter = this.createObject('energymeter');
+        this.energyMeter.x = 10;
+        this.energyMeter.y = 10;
+        this.energyMeter.setScale(0.5);
+
         this.back.setScale(1.2);
         this.background.addRenderObject(this.back);
 
         this.ui.addRenderObject(this.hpBar);
         this.ui.addRenderObject(this.hpMeter);
+        this.ui.addRenderObject(this.energyMeter);
         Object.keys(this.battleground.nodes).forEach(nodeId => {
             const obj = new Element(this.battleground.nodes[nodeId], this.battleground);
             obj.x = 325 + nodeId % 5 * 30;
@@ -73,12 +81,6 @@ class GameScene extends Scene {
         this.hero.x = -100;
         this.hero.y = 80;
         this.hero.z = 1;
-        this.hero.body = {
-            dx: 150,
-            dy: 100,
-            width: 150,
-            height: 150
-        }
 
         this.skillPoint1 = this.createObject('skill.fire');
         this.skillPoint2 = this.createObject('skill.fire');
@@ -129,7 +131,8 @@ class GameScene extends Scene {
 
         this.hero.play();
         this.enemy.play();
-        this.hpMeter.sprite.width = 640 * this.hero.hp/15;
+        this.hpMeter.sprite.width = 128 + 512 * this.hero.hp/15;
+        this.energyMeter.sprite.width = 120 + 280 * this.player.energy.fire/20;
         this.battleground.update();
         this.renderArea._dirty = true;
         this.renderArea.render();
