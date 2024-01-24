@@ -115,20 +115,6 @@ class GameScene extends Scene {
     }
 
     async update() {
-        if (this.player.energy.fire >= 1) 
-        this.skillPoint1.sprite.name = "skill.fire"
-        else this.skillPoint1.sprite.name = "";
-        if (this.player.energy.fire >= 2) 
-        this.skillPoint2.sprite.name = "skill.fire"
-        else this.skillPoint2.sprite.name = "";
-        if (this.player.energy.fire >= 4) 
-        this.skillPoint3.sprite.name = "skill.fire"
-        else this.skillPoint3.sprite.name = "";
-        if (this.player.energy.fire >= 7) 
-        this.skillPoint4.sprite.name = "skill.fire"
-        else this.skillPoint4.sprite.name = "";
-
-
         this.hero.play();
         this.enemy.play();
         this.hpMeter.sprite.width = 128 + 512 * this.hero.hp/15;

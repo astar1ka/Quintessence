@@ -90,4 +90,10 @@ class RenderArea{
             objs = null;
         }
     }
+
+    setDirty(children = false){
+        this._parent.setDirty();
+        this._dirty = true;
+        if (children) this._children.forEach(child => child.setDirty(true));
+    }
 }
