@@ -65,11 +65,11 @@ class RenderManager{
         elements.forEach(elem => {
             this.canvas.draw(elem)
         });
-        if (this.checkInside(area.left, area.top, area)) 
+        if (this.checkInside(area.left, area.top, this.camera)) 
             this.gameScreen.getContext("2d").draw(
                 this.canvas._canvas, 
-                this.camera.left, 
-                this.camera.top, 
+                area.left, 
+                area.top, 
                 this.camera.width, 
                 this.camera.height,
                 area.left - this.camera.left,
