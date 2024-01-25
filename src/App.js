@@ -6,9 +6,9 @@ async function App(){
     const game = new Game({
         canvas: "canvas",
         width: 1920,
-        height: 1080
+        height: 1080,
+        scenes: [new GameScene("main")]
     });
-
-    game.addScene(new GameScene("main"));
+    
     game.run();
 }

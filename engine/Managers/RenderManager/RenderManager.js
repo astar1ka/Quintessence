@@ -4,7 +4,6 @@ class RenderManager{
         this.gameScreen = gameScreen;
         this.resources = resourcesManager;
         this.root = createElement('sprite');
-        console.log(this.root);
         this.canvas = new Canvas;
         this.camera = {
             left: 0,
@@ -19,7 +18,6 @@ class RenderManager{
     }
 
     getCross(area1,area2){
-        console.log(area1, area2);
         if (
                 (area1.right >= area2.left && area1.left <= area2.right) &&
                 (area1.bottom >= area2.top && area1.top <= area2.bottom)
@@ -50,19 +48,20 @@ class RenderManager{
             element.type,
             {
                 image: this.resources.get(element.props.sprite.name),
-                scaleX: element.props.sprite.scaleX,
-                scaleY: element.props.sprite.scaleY,
+                original: {
+                    width: element.props.width,
+                    height:element.props.height
+                },
                 reverse: element.props.sprite.reverse
             },
             area.left, 
             area.top, 
             area.right - area.left, 
             area.bottom - area.top, 
-            (area.left > x) ? area.left - element.left : 0, 
-            (area.top > y) ? area.top - element.top : 0);
+            (area.left > x) ? area.left - element.props.left : 0, 
+            (area.top > y) ? area.top - element.props.top : 0);
         element.props.childrens.sort((a,b) => a.props.z - b.props.z).forEach(children => {
             const crossArea = this.getCross(area, this.toArea(children.props,x,y));
-            console.log(area);
             if (crossArea){
                 this.renderElements(crossArea,children, x, y)
             }
@@ -70,17 +69,12 @@ class RenderManager{
     }
 
     render(){
-        
-        this.gameScreen.getContext("2d").fillRect(10,10, 500, 500);
-        this.gameScreen.getContext("2d").drawImage(this.canvas._canvas,this.camera.left, this.camera.top,this.camera.width, this.camera.height, 0, 0, this.camera.width, this.camera.height);
-        this.gameScreen.getContext("2d").fill();
+        this.gameScreen.getContext("2d").drawImage(this.canvas._canvas,this.camera.left, this.camera.top, this.camera.width, this.camera.height, 0, 0, this.camera.width, this.camera.height);
     }
 
-    updateElement(element){
+    async updateElement(element){
         const XY = this.getElementXY(element);
         const area = {
-            x0: 0,
-            y0: 0,
             left: XY.x,
             right: XY.x + element.props.width,
             top: XY.y,
@@ -103,7 +97,6 @@ class RenderManager{
             result.x += parent.x;
             result.y += parent.y;
         }
-        console.log(result);
         return result
     }
 

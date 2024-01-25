@@ -1,18 +1,26 @@
 class SceneManager{
 
     scenes = {};
+    activeScene = '';
 
-    constructor(scenes, gameScreen){
-        scenes.forEach( scene => this.add(scene));
-        this.gameScreen = gameScreen;
-        this.gameScreen.onclick = (event) => console.log(event);
+    constructor(scenes = [], game){
+        if (scenes[0]) {
+            scenes.forEach(scene => {
+                this.scenes[scene.getName()] = scene;
+                scene.own(game);
+            });
+            this.play(scenes[0].getName());
+        }
     }
 
     add(scene){
-        this.scenes[scene.getName()] = {
-            scene: scene,
-            hash: {}
-        };
+        this.scenes[scene.getName()] = scene;
+    }
+
+    async play(name){
+        this.activeScene = name;
+        /*await this.scenes[name].preload();
+        this.scenes[name].create();*/
     }
 
     close(scene){
@@ -20,20 +28,15 @@ class SceneManager{
     }
 
     render(){
-        Object.keys(this.scenes).forEach(key => {
-            const {scene, hash} = this.scenes[key];
-            if (scene.checkHash(hash)){
-                this.gameScreen.getContext("2d").fillStyle = "white";
-                this.gameScreen.getContext("2d").fillRect(0,0,this.gameScreen.width, this.gameScreen.height);
-                this.gameScreen.getContext("2d").drawImage(scene.getCanvas(), 0, 0);
-                this.scenes[key].hash = scene.getHash();
-            }
-        });
-        requestAnimationFrame(()=> this.render());
+
     }
 
     destroy(){
         this.scenes = {};
         this.gameScreen = null;
+    }
+
+    getActiveScene(){
+        return this.scenes[this.activeScene];
     }
 }

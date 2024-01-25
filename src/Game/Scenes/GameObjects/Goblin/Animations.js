@@ -8,8 +8,8 @@ const GoblinAnimations = {
         stepOnFrame: 4
     },
     hit: {
-        maxStep: 17,
-        stepOnFrame: 6
+        maxStep: 20,
+        stepOnFrame: 7
     },
     dead: {
         maxStep: 15,

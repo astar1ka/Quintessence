@@ -1,21 +1,31 @@
 class EventManager{
     __events = {};
     
-    constructor(){
-
+    constructor(canvas, scenes){
+        this.scenes = scenes;
+        canvas.onclick = (event) => this.onMouseEvent('click', event.clientX, event.clientY);
+        canvas.onmousedown = (event) => this.onMouseEvent('mousedown', event.clientX, event.clientY);
+        canvas.onmouseup = (event) => this.onMouseEvent('mouseup', event.clientX, event.clientY);
+        canvas.onmousemove = (event) => this.onMouseEvent('mousemove', event.clientX, event.clientY);
     }
 
     addEvent(name){
         this.__events[name] = {};
     }
 
-    subscribe(name, callback, id){
-        if (callback instanceof Function)
-            this.__events[name][id] = (event) => callback(event);
+    onMouseEvent(event, x, y){
+        const obj = this.scenes.getActiveScene().interactiveObjects.sort((a,b) => b.element.props.z - a.element.props.z).find(obj => (obj.element.props.left+obj.body.dx <= x && obj.element.props.left+obj.body.dx + obj.body.width>= x));
+        if (obj) {
+            if(event === "click") obj.onclick();
+            if(event === "mousedown") obj.onmousedown();
+            if(event === "mouseup") obj.onmouseup();
+            if(event === "mousemove") obj.onmousemove();
+        }
     }
 
     call(name, event){
-        Object.values(this.__events[name]).forEach(cb => cb(event));
+        if (this.__events[name])
+            Object.values(this.__events[name]).forEach(cb => cb(event));
     }
 
     unsubscribe(name, id){

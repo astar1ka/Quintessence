@@ -41,8 +41,4 @@ class SceneObject{
         const top = this.y + this.body.dy;
         return (x >= left && x <= left + this.body.width*this._scaleX && y >= top && y <= top + this.body.height*this._scaleY)
     }
-
-    onclick(){
-        
-    }
 }

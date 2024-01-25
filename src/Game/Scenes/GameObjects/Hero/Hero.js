@@ -44,8 +44,12 @@ class Hero extends SceneObject{
                 this.setAnimation(this.animation.base)
                 else
                 this.alive = false
-            this.sprite.name = this.spritesName + "." + this.animation.name + "_"+ (Math.trunc(this.animation.step/this.animations[this.animation.name].stepOnFrame) + 1);
+                this.updateSprite();
         }
+    }
+
+    updateSprite(){
+        this.element.props.sprite.name = this.spritesName + "." + this.animation.name + "_"+ (Math.trunc(this.animation.step/this.animations[this.animation.name].stepOnFrame) + 1);
     }
 
     setAnimation(name){
@@ -87,6 +91,21 @@ class Hero extends SceneObject{
 
     dead(){
         this.setAnimation("dead");
+    }
+
+    onclick(){
+        console.log('hero click')
+    }
+
+    onmousemove(x,y){
+    }
+
+    onmouseup(){
+        console.log('hero up')
+    }
+
+    onmousedown(){
+        console.log('hero down')
     }
 
 }

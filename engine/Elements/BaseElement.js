@@ -1,37 +1,17 @@
-class BaseElement{
-    constructor(parent = null, childrens = []){
-        this._left = 0;
-        this._top = 0;
-        this._childrens = childrens;
-        this._parent = parent;
+class BaseComponent{
+    constructor(element, render){
+        this.element = element;
+        this.baseWidth = this.element.props.width;
+        this.baseHeight = this.element.props.height;
+        this.rennder = () => render(this.element);
     }
 
-    addChildren(children){
-        this._childrens.push(chidlren);
+    render(){
+
     }
 
-    removeChildren(children){
-        this._childrens = this._childrens.filter(el => el != children);
-    }
-
-    getHead(){
-        if (this._parent.getHead) return this._parent.getHead();
-        return this;
+    setScale(x,y){
+        this.element.props.width = this.baseWidth * x;
+        this.element.props.width = this.baseHeight * y;
     }
 }
-
-/*    
-
-addEventListenner(name, func){
-        this.manager.subcribe(name, func, this.id);
-    }
-
-    deleteEventListenner(name){
-        this.manager.unsubcribe(name, this.id);
-    }
-
-    delete(){
-        this.manager.deleteElement(this.id);
-    }
-
-*/

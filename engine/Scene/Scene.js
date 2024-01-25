@@ -1,20 +1,30 @@
 class Scene{
 
+    interactiveObjects = [];
 
     constructor(name, config){
         this._name = name;
-        //this._canvas = new Canvas(1600,900, this._resources);
         this._renderManager = {};
     }
 
+    setInteractive(obj){
+        this.interactiveObjects.push(obj);
+    }
+
+
     own(game){
+        console.log(game);
         this._resources = game.managers.resources;
         this._render = game.managers.render;
         this.background = this._render.createElement("sprite");
     }
 
-    createSprite(logic, parent = this.background){
-        logic.element = this._render.createElement("sprite", parent);
+    createSprite(logic, parent = this.background, width = 0, height = 0){
+        const element = this._render.createElement("sprite", parent);
+        logic.element = element;
+        logic.updateSprite();
+        element.props.width = width;
+        element.props.height = height;
     }
 
 

@@ -6,6 +6,7 @@
     'engine/Managers/EventManager/EventManager.js',
     'engine/Managers/ResourceManager/ResourceManager.js',
     'engine/Managers/RenderManager/RenderManager.js',
+    'engine/Managers/SceneManager/SceneManager.js',
     'engine/Managers/RenderManager/RenderArea/RenderArea.js',
     'engine/Canvas/Canvas.js',
     'engine/Scene/Scene.js',
@@ -23,23 +24,27 @@ class Game{
         this.gameScreen.width = config.width;
         this.gameScreen.height = config.height;
         //this.SceneManager = new SceneManager(config.scenes, this.gameScreen);
-        this.registrationManagers(gameScreen);
+        this.registrationManagers(gameScreen,config);
     }
 
-    registrationManagers(gameScreen){
-        this.managers.events = new EventManager(this);
+    registrationManagers(gameScreen, config){
         this.managers.resources = new ResourceManager();
         this.managers.render = new RenderManager(gameScreen,this.managers.resources);
             //data: new DataManager(),
             //logic: new LogicManager(),
             //area: new AreaManager(),
-            //scenes: new SceneManager()
+        this.managers.scenes =  new SceneManager(config.scenes,this);
+        this.managers.events = new EventManager(gameScreen, this.managers.scenes);
     }
 
     async run(){
-        await this.scene.preload();
-        this.scene.create();
-        this.updateId = this.timer.add(() => this.update(), 0);
+        await this.managers.scenes.getActiveScene().preload();
+        this.managers.scenes.getActiveScene().create();
+        this.updateId = this.timer.add(() => this.update(), 0, 30);
+        /*this.managers.events.subscribe('click', (event) => this.managers.scenes.getActiveScene().mouseEvent("click", event.clientX, event.clientY));
+        this.managers.events.subscribe('mouseup', (event) => this.managers.scenes.getActiveScene().mouseEvent("mouseup", event.clientX, event.clientY));
+        this.managers.events.subscribe('mousedown', (event) => this.managers.scenes.getActiveScene().mouseEvent("mousedown", event.clientX, event.clientY));
+        this.managers.events.subscribe('mousemove', (event) => this.managers.scenes.getActiveScene().mouseEvent("mousemove", event.clientX, event.clientY));*/
     }
 
     addScene(scene){
@@ -52,7 +57,7 @@ class Game{
     }
 
     update(){
-        this.scene.update()
+        this.managers.scenes.getActiveScene().update();
     }
 
 

@@ -15,6 +15,8 @@ class GameScene extends Scene {
         this.gameObjects = [];
     }
 
+
+
     async preload() {
         await this._load('hpbar', "./src/assets/sprites/HPBar.png");
         await this._load('hpmeter', "./src/assets/sprites/HPMeter.png");
@@ -28,17 +30,22 @@ class GameScene extends Scene {
 
     async create() {
         this.hero = new Hero('hero');
-        this.createSprite(this.hero);
-        this.background.props.width = 512;
-        this.background.props.height = 256;
-        this.background.props.left = 0;
-        this.background.props.top = 256;
-        this.background.props.sprite.name = "hero.atk1_4";
-        this.background.props.sprite.scaleX = 2;
-        this.background.props.sprite.scaleY = 2;
+        console.log(this.hero);
+        this.createSprite(this.hero, this.background, 800, 400);
+        this.hero.element.props.top = 400;
+        this.setInteractive(this.hero);
+        //this.hero.element.props.left = 400;
+        this.hero.element.props.z = 3;
+        this.background.props.width = 1920;
+        this.background.props.height = 1080;
+        this.background.props.sprite.name = "back";
         this.background.props.sprite.reverse = true;
         this._render.updateElement(this.background);
         this.enemy = new Goblin;
+        this.createSprite(this.enemy, this.background, 400, 400);
+        this.enemy.element.props.top = 530;
+        this.enemy.element.props.left = 800;
+        this._render.updateElement(this.enemy.element);
         this.player = new Player("1", this.hero, this.enemy);
         this.battleground = new BattleGround(this.player, this.enemy, 5, 5);
         this.back = this.createObject('back');
@@ -50,7 +57,9 @@ class GameScene extends Scene {
         this.hpMeter.x = 10;
         this.hpMeter.y = 10;
         this.hpMeter.setScale(0.5);
-
+        //this.hero.attack(this.enemy, 1);
+        this.enemy.attack(this.hero);
+        //this.hero.setAnimation("atk3")
         this.energyMeter = this.createObject('energymeter');
         this.energyMeter.x = 10;
         this.energyMeter.y = 10;
@@ -94,16 +103,12 @@ class GameScene extends Scene {
         this.battleground.newBattle();
         this.hero.state = 1;
         this.gameObjects.push(this.hero);
-        this.hero.onclick = () => {
-            this.player.setEnergy(this.hero.power,this.hero.attack(this.enemy, this.player.energy[this.hero.power]));
-            
-        }
     }
 
     async update() {
         this.hero.play();
+        this._render.updateElement(this.hero.element);
         this.enemy.play();
-        this.hpMeter.sprite.width = 128 + 512 * this.hero.hp/15;
-        this.energyMeter.sprite.width = 120 + 280 * this.player.energy.fire/20;
+        this._render.updateElement(this.enemy.element);
     }
 }
