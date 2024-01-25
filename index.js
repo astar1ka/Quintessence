@@ -1,9 +1,5 @@
 const scripts = [
-
-    'engine/Managers/ResourceManager/ResourceManager.js',
-    'engine/Managers/RenderManager/RenderArea/RenderArea.js',
-    'engine/Canvas/Canvas.js',
-    'engine/Scene/Scene.js',
+    'engine/Game.js',
     
     'src/Game/Scenes/SceneObjects/SceneObject.js',
 
@@ -27,7 +23,7 @@ const scripts = [
     'src/Game/Scenes/Methods/LoadSources.js',
     'src/Game/Scenes/GameScene.js',
 
-    'src/Game/Game.js',
+    //'src/Game/Game.js',
 
     'src/App.js'
 

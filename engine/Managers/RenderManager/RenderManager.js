@@ -1,8 +1,10 @@
 class RenderManager{
 
-    constructor(gameScreen){
+    constructor(gameScreen,resourcesManager){
         this.gameScreen = gameScreen;
+        this.resources = resourcesManager;
         this.root = createElement('sprite');
+        console.log(this.root);
         this.canvas = new Canvas;
         this.camera = {
             left: 0,
@@ -16,88 +18,92 @@ class RenderManager{
         return createElement(type, parent);
     }
 
-    checkInside(x,y,area){
-        return ((x >= area.left && x <= area.left + area.width) && (y >= area.top && y <= area.top + area.height))
+    getCross(area1,area2){
+        console.log(area1, area2);
+        if (
+                (area1.right >= area2.left && area1.left <= area2.right) &&
+                (area1.bottom >= area2.top && area1.top <= area2.bottom)
+        ){
+            return {
+                left: (area1.left > area2.left) ? area1.left: area2.left,
+                top: (area1.top > area2.top) ? area1.top: area2.top,
+                bottom: (area1.bottom < area2.bottom) ? area1.bottom: area2.bottom,
+                right: (area1.right < area2.right) ? area1.right : area2.right,
+            }
+        }
+        return null;
     }
 
-    elementToPicture(element,dx = 0, dy = 0){
-        switch(element.type){
-            case 'sprite':         
-                return {
-                    x: dx + element.props.left,
-                    y: dy + element.props.top,
-                    z: element.props.z,
-                    image: this.resources.getImage(element.props.sprite)
-                }
-            case 'text': 
-                return {
-                    x: dx + element.props.left,
-                    y: dy + element.props.top,
-                    z: element.props.z,
-                    image: this.resources.getImage(element.props.sprite)
-                }
+    toArea(data, x0 = 0, y0 = 0){
+        return {
+            left: data.left + x0,
+            right: data.left + data.width + x0,
+            top: data.top + y0,
+            bottom: data.top + data.height + y0
         }
     }
 
-
-    getElements(area, element = this.body, x = 0, y = 0){
-        const picture = this.elementToPicture(element,x,y);
-        const result = [picture];
-        element.props.childrens.forEach(children => {
-            if (this.checkInside(children.props.left, children.props.top, area))
-                result.push(this.getElements(
-                    {
-                        left: 0,
-                        top: 0,
-                        width: area.width - children.left,
-                        height: area.height - children.top,
-                    },
-                    children,
-                    picture.x,
-                    picture.y
-            ));
+    renderElements(area, element = this.root, x0 = 0, y0 = 0){
+        const x = x0 + element.props.left;
+        const y = y0 + element.props.top;
+        this.canvas.render(
+            element.type,
+            {
+                image: this.resources.get(element.props.sprite.name),
+                scaleX: element.props.sprite.scaleX,
+                scaleY: element.props.sprite.scaleY,
+                reverse: element.props.sprite.reverse
+            },
+            area.left, 
+            area.top, 
+            area.right - area.left, 
+            area.bottom - area.top, 
+            (area.left > x) ? area.left - element.left : 0, 
+            (area.top > y) ? area.top - element.top : 0);
+        element.props.childrens.sort((a,b) => a.props.z - b.props.z).forEach(children => {
+            const crossArea = this.getCross(area, this.toArea(children.props,x,y));
+            console.log(area);
+            if (crossArea){
+                this.renderElements(crossArea,children, x, y)
+            }
         })
-        return result;
     }
 
-    render(area){
-        const elements = this.getElements(area).sort(a.props.z - b.props.z);
-        elements.forEach(elem => {
-            this.canvas.draw(elem)
-        });
-        if (this.checkInside(area.left, area.top, this.camera)) 
-            this.gameScreen.getContext("2d").draw(
-                this.canvas._canvas, 
-                area.left, 
-                area.top, 
-                this.camera.width, 
-                this.camera.height,
-                area.left - this.camera.left,
-                area.top - this.camera.top,
-                area.width,
-                area.height
-                );
-    }
-
-    update(){
-        gameScreen.getContext("2d").drawImage(gameScene._canvas._canvas, x, y, width, height, );
+    render(){
+        
+        this.gameScreen.getContext("2d").fillRect(10,10, 500, 500);
+        this.gameScreen.getContext("2d").drawImage(this.canvas._canvas,this.camera.left, this.camera.top,this.camera.width, this.camera.height, 0, 0, this.camera.width, this.camera.height);
+        this.gameScreen.getContext("2d").fill();
     }
 
     updateElement(element){
-        const elements = this.virtualCanvas.getElements(element.left, element.top, element.width, element.height);
-        this.render(XY.x, XY.y, element.width,element.height);
+        const XY = this.getElementXY(element);
+        const area = {
+            x0: 0,
+            y0: 0,
+            left: XY.x,
+            right: XY.x + element.props.width,
+            top: XY.y,
+            bottom: XY.y + element.props.height
+        }
+        this.renderElements(area);
+        const cross = this.getCross(area, this.toArea(this.camera));
+        if (cross) {
+            this.render();
+        }
     }
 
     getElementXY(element){
         const result = {
-            x: element.left,
-            y: element.top
+            x: element.props.left,
+            y: element.props.top
         }
         if (element.props.parent) {
             const parent = this.getElementXY(element.props.parent);
-            result += parent.x;
-            result += parent.y;
+            result.x += parent.x;
+            result.y += parent.y;
         }
+        console.log(result);
         return result
     }
 

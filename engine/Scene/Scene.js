@@ -1,13 +1,22 @@
 class Scene{
 
-    _dirty = true;
 
     constructor(name, config){
         this._name = name;
-        this._resources = new ResourceManager();
-        this._canvas = new Canvas(1600,900, this._resources);
+        //this._canvas = new Canvas(1600,900, this._resources);
         this._renderManager = {};
     }
+
+    own(game){
+        this._resources = game.managers.resources;
+        this._render = game.managers.render;
+        this.background = this._render.createElement("sprite");
+    }
+
+    createSprite(logic, parent = this.background){
+        logic.element = this._render.createElement("sprite", parent);
+    }
+
 
     async _load(name, src, width, height){
         return await this._resources.load(name, src, width, height);

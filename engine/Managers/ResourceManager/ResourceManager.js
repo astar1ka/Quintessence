@@ -1,10 +1,5 @@
 class ResourceManager{
-
-    constructor(){
-        
-    }
     
-
     _resources = {};
 
     _saveResource(name,img, dx, dy, width, height){

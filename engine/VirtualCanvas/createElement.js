@@ -3,18 +3,19 @@ function createElement(type, parent = null) {
         type: type,
         props: {
             childrens: [],
-            parent: null,
+            parent: parent,
             width: 0,
             height: 0,
             top: 0,
             left: 0,
             z: 0
-        },
-        dirty: true
+        }
     }
     switch (type){
         case 'sprite': {
-            element.props.image = '';
+            element.props.sprite = {
+                name: ''
+            };
             break;
         }
         case 'text': {
@@ -26,6 +27,6 @@ function createElement(type, parent = null) {
             break;
         }
     }
-    if(parent) element.parent.props.childrens.push(element);
+    if(parent) element.props.parent.props.childrens.push(element);
     return element;
 }

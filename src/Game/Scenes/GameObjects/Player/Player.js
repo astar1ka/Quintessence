@@ -37,7 +37,7 @@ class Player{
     }
 
     status(){
-        console.clear();
+        /*console.clear();
         console.log("HP:" + this.hero.hp);
         console.log("ENERGY:");
         console.log("|Fire|:" + this.energy.fire);
@@ -47,7 +47,7 @@ class Player{
         console.log("|Wind|:" + this.energy.wind);
         console.log("--------------------------------");
         console.log("ENEMY")
-        console.log("HP:" + this.enemy.hp);
+        console.log("HP:" + this.enemy.hp);*/
     }
 
 
