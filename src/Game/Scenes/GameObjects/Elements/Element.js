@@ -1,6 +1,7 @@
 class Element extends SceneObject{
 
     selected = false;
+    active = true;
 
     constructor(node, battleground){
         super('fire', 64, 64);
@@ -10,8 +11,15 @@ class Element extends SceneObject{
     }
 
     setPower(power){
-        this.power = power;
-        this.sprite.name = power;
+        if (this.active){
+            this.power = power;
+            this.element.props.sprite.name = power;
+        }
+    }
+
+    setActive(active){
+        this.active = active;
+        this.element.props.sprite.name = (this.active) ? this.power : (this.power + "_destroy");
     }
 
     select(){
@@ -24,7 +32,7 @@ class Element extends SceneObject{
         this.battleground.selected = null;
     }
 
-    onclick(){
+    /*onclick(){
         const selected = this.battleground.selected;
         if (selected) {
             selected.unselect();
@@ -32,5 +40,18 @@ class Element extends SceneObject{
                 this.battleground.swap(this.node,selected.node) 
                 else this.select();
         } else this.select();
+    }*/
+
+    onclick(){
+
+    }
+
+    onmousemove(x,y){
+    }
+
+    onmouseup(){
+    }
+
+    onmousedown(){
     }
 }

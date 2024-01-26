@@ -32,24 +32,29 @@ class BattleGround{
 
     newBattle(){
         this.player.restore(this.lastPower);
-        Object.values(this.nodes).forEach(node => node.element.setPower(powers[Math.round(Math.abs(Math.random()*5-0.501))]));
+        Object.values(this.nodes).forEach(node => {
+            node.element.setPower(powers[Math.round(Math.abs(Math.random()*5-0.501))]);
+            node.element.setActive(true);
+        });
     }
 
     fullCheck(id){
         const node = this.nodes[id];
-        if (node && node.element.power != "") {
+        if (node && node.element.active) {
             const horizontal = [...this.check(node.paths.left, 'left', node.element.power,[]), ...this.check(node.paths.right, 'right', node.element.power,[])];
             const vertical = [...this.check(node.paths.top, 'top', node.element.power,[]), ...this.check(node.paths.bot, 'bot', node.element.power,[])];
             vertical.push(node);
             horizontal.push(node);
-            if (horizontal.length >= 3) horizontal.forEach(node => this.kill(node));
-            if (vertical.length >= 3) vertical.forEach(node => this.kill(node));
+            let point = 0;
+            if (horizontal.length >= 3) horizontal.forEach(node => point += this.kill(node));
+            if (vertical.length >= 3) vertical.forEach(node => point += this.kill(node));
+            this.player.setEnergy(node.element.power, Math.trunc((point*point+point)/10));
         }
     }
 
     check(id, direction, power, result){
         const node = this.nodes[id];
-        if (node && node.element.power === power && power != "") {
+        if (node && node.element.power === power && node.element.active) {
             result.push(node);
             this.check(node.paths[direction], direction, power, result);
         }
@@ -57,9 +62,9 @@ class BattleGround{
     }
 
     kill(node){
-        this.player.setEnergy(node.element.power, 1);
         this.lastPower = node.element.power;
-        node.element.setPower('');
+        node.element.setActive(false);
+        return 1;
     }
 
     update(){
@@ -86,6 +91,26 @@ class BattleGround{
                 setTimeout(() => this.newBattle(), 1000);
             }
         }
+    }
+
+    getNodeByXY(x,y){
+        const id = Math.trunc((x-30+32)/80)+Math.trunc((y-200+32)/80)*this.width;
+        return this.nodes[id]
+    }
+
+    onmousemove(x,y){
+        
+    }
+
+    onmousedown(){
+
+    }
+
+    onmouseup(){
+
+    }
+
+    onclick(){
     }
 
 

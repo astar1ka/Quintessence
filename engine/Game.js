@@ -38,8 +38,6 @@ class Game{
     }
 
     async run(){
-        await this.managers.scenes.getActiveScene().preload();
-        this.managers.scenes.getActiveScene().create();
         this.updateId = this.timer.add(() => this.update(), 0, 30);
         /*this.managers.events.subscribe('click', (event) => this.managers.scenes.getActiveScene().mouseEvent("click", event.clientX, event.clientY));
         this.managers.events.subscribe('mouseup', (event) => this.managers.scenes.getActiveScene().mouseEvent("mouseup", event.clientX, event.clientY));

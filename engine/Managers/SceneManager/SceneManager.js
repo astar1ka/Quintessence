@@ -7,7 +7,7 @@ class SceneManager{
         if (scenes[0]) {
             scenes.forEach(scene => {
                 this.scenes[scene.getName()] = scene;
-                scene.own(game);
+                scene.own(game, this);
             });
             this.play(scenes[0].getName());
         }
@@ -18,9 +18,9 @@ class SceneManager{
     }
 
     async play(name){
+        await this.scenes[name].preload();
+        await this.scenes[name].create();
         this.activeScene = name;
-        /*await this.scenes[name].preload();
-        this.scenes[name].create();*/
     }
 
     close(scene){

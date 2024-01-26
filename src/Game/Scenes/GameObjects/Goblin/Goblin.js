@@ -7,6 +7,7 @@ class Goblin extends SceneObject{
     }
 
     hp = 15;
+    maxHp = 15;
 
     dmg = 2;
     alive = true;

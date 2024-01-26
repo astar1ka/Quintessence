@@ -7,7 +7,7 @@ async function App(){
         canvas: "canvas",
         width: 1920,
         height: 1080,
-        scenes: [new GameScene("main")]
+        scenes: [new Screen("screen"),new GameScene("main")]
     });
     
     game.run();

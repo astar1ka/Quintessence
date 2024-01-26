@@ -9,24 +9,33 @@ class Scene{
 
     setInteractive(obj){
         this.interactiveObjects.push(obj);
+        obj.body = {
+            dx: 0,
+            dy: 0,
+            width: obj.element.props.width,
+            height: obj.element.props.height
+        }
     }
 
 
-    own(game){
-        console.log(game);
+    own(game, scenes){
         this._resources = game.managers.resources;
         this._render = game.managers.render;
+        this._scenes = scenes;
         this.background = this._render.createElement("sprite");
     }
 
     createSprite(logic, parent = this.background, width = 0, height = 0){
         const element = this._render.createElement("sprite", parent);
         logic.element = element;
-        logic.updateSprite();
+        //logic.updateSprite();
         element.props.width = width;
         element.props.height = height;
     }
 
+    createDiv(parent = this.background){
+        return this._render.createElement("div", parent);
+    }
 
     async _load(name, src, width, height){
         return await this._resources.load(name, src, width, height);

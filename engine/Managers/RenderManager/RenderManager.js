@@ -47,12 +47,17 @@ class RenderManager{
         this.canvas.render(
             element.type,
             {
-                image: this.resources.get(element.props.sprite.name),
+                data: (element.type === "sprite") ? 
+                this.resources.get(element.props.sprite.name) :
+                (element.type === "div") ? {
+                    color: element.props.color,
+                    stroke: element.props.stroke
+                } : null,
                 original: {
                     width: element.props.width,
-                    height:element.props.height
+                    height: element.props.height    
                 },
-                reverse: element.props.sprite.reverse
+                reverse: element.props.reverse
             },
             area.left, 
             area.top, 
@@ -62,7 +67,7 @@ class RenderManager{
             (area.top > y) ? area.top - element.props.top : 0);
         element.props.childrens.sort((a,b) => a.props.z - b.props.z).forEach(children => {
             const crossArea = this.getCross(area, this.toArea(children.props,x,y));
-            if (crossArea){
+            if (crossArea && !children.props.hide){
                 this.renderElements(crossArea,children, x, y)
             }
         })

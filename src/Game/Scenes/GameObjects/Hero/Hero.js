@@ -21,6 +21,7 @@ class Hero extends SceneObject{
     }
     speed = 5;
     hp = 15;
+    maxHp = 15;
     alive = true;
 
     constructor(spritesName){
@@ -28,6 +29,7 @@ class Hero extends SceneObject{
         this.spritesName = spritesName;
         this.animations = HeroAnimations;
         this.setAnimation('idle');
+        this.power = "fire";
         this.body = {
             dx: 150,
             dy: 100,
@@ -57,26 +59,11 @@ class Hero extends SceneObject{
         this.animation.name = name;
     }
 
-    attack(enemy, energy){
-        if (energy >= this.costs["skill"]) {
-            this.setAnimation('skill');
-            enemy.damage(this.dmg['skill'])
-            return -1*this.costs["skill"];
-        }
-        if (energy >= this.costs["atk3"]) {
-            this.setAnimation('atk3');
-            enemy.damage(this.dmg['atk3'])
-            return -1*this.costs["atk3"];
-        }
-        if (energy >= this.costs["atk2"]) {
-            this.setAnimation('atk2');
-            enemy.damage(this.dmg['atk2'])
-            return -1*this.costs["atk2"];
-        }
-        if (energy >= this.costs["atk1"]) {
-            this.setAnimation('atk1');
-            enemy.damage(this.dmg['atk1'])
-            return -1*this.costs["atk1"];
+    attack(enemy, energy, type){
+        if (energy[this.power] >= this.costs[type]) {
+            this.setAnimation(type);
+            enemy.damage(this.dmg[type])
+            return -1*this.costs[type];
         }
         return 0;
     }
@@ -94,18 +81,15 @@ class Hero extends SceneObject{
     }
 
     onclick(){
-        console.log('hero click')
     }
 
     onmousemove(x,y){
     }
 
     onmouseup(){
-        console.log('hero up')
     }
 
     onmousedown(){
-        console.log('hero down')
     }
 
 }

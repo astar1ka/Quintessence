@@ -37,17 +37,11 @@ class Player{
     }
 
     status(){
-        /*console.clear();
-        console.log("HP:" + this.hero.hp);
-        console.log("ENERGY:");
-        console.log("|Fire|:" + this.energy.fire);
-        console.log("|Water|:" + this.energy.water);
-        console.log("|Earth|:" + this.energy.earth);
-        console.log("|Nature|:" + this.energy.nature);
-        console.log("|Wind|:" + this.energy.wind);
-        console.log("--------------------------------");
-        console.log("ENEMY")
-        console.log("HP:" + this.enemy.hp);*/
+        this.energyPoints.forEach(point => point.element.props.hide = true)
+        for(let i = 0; i < this.energy[this.hero.power]; i++) this.energyPoints[i].element.props.hide = false;
+        if (this.hpBar) this.hpBar.props.width = 300*this.hero.hp/this.hero.maxHp;
+        if (this.enemyHpBar) this.enemyHpBar.props.width = 300*this.enemy.hp/this.enemy.maxHp;
+        
     }
 
 

@@ -26,6 +26,14 @@ function createElement(type, parent = null) {
             };
             break;
         }
+        case 'div': {
+            element.props.color = 'black',
+            element.props.stroke = {
+                color: 'black',
+                width: 1
+            }
+            break;
+        }
     }
     if(parent) element.props.parent.props.childrens.push(element);
     return element;
