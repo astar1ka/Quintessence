@@ -148,11 +148,16 @@ class GameScene extends Scene {
             obj.element.props.top = obj.y;
             if (node) {
                 const power = obj.power;
+                const active = node.element.active;
                 obj.setPower(node.element.power);
                 node.element.setActive(true);
                 node.element.setPower(power);
-                this.battleground.fullCheck(node.id)
-                obj.setActive(false);
+                node.element.setActive(active);
+                if (!this.battleground.turn(node) && active) {
+                    node.element.setPower(obj.power);
+                    obj.setPower(power);
+                }
+                else if (obj.power != "nature") obj.setActive(false);
             }
             this._render.updateElement(this.battleground.element);
         }
@@ -204,7 +209,7 @@ class GameScene extends Scene {
     this.gameObjects.push(this.atk3Button);
 
     const endTurnCallback = () => {
-        this.battleground.newBattle();
+        this.battleground.newTurn();
         this.player.inventory.forEach(item => item.setActive(true));
         this._render.updateElement(this.battleground.element);
         this.enemy.attack(this.hero);

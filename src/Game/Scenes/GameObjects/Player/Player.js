@@ -24,12 +24,22 @@ class Player{
     }
 
     restore(power){
+        console.log(power);
         switch(power){
             case "water":
                 this.hero.hp += 1; 
             break;
             case "earth":
-                this.hero.block = true;
+                this.hero.shield = 2;
+            break;
+            case "fire":
+                this.hero.damageBonus = 1;
+            break;
+            case "wind":
+                this.setEnergy(this.hero.power, 1);
+            break;
+            case "nature":
+                this.hero.restore = true;
             break;
         }
         this.actions = this.hero.speed;

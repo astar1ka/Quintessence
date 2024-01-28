@@ -15,14 +15,15 @@ class Hero extends SceneObject{
     };
     dmg = {
         "atk1": 1,
-        "atk2": 2,
-        "atk3": 4,
-        "skill": 7
+        "atk2": 3,
+        "atk3": 7,
+        "skill": 10
     }
     speed = 5;
     hp = 15;
     maxHp = 15;
     alive = true;
+    shield = 0;
 
     constructor(spritesName){
         super(spritesName,512,256);
@@ -69,6 +70,9 @@ class Hero extends SceneObject{
     }
 
     damage(dmg){
+        dmg -= this.shield;
+        this.shield = 0;
+        if (dmg < 0) dmg = 0;
         this.hp -= dmg;
         setTimeout(() => {
             this.setAnimation("hit")
