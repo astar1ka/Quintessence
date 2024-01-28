@@ -10,6 +10,7 @@ const scripts = [
     'src/Game/Scenes/GameObjects/Button/Button.js',
 
     'src/Game/Scenes/GameObjects/Elements/SpriteAtlas.js',
+    'src/Game/Scenes/GameObjects/Elements/SpriteSkillAtlas.js',
     'src/Game/Scenes/GameObjects/Elements/Element.js',
     'src/Game/Scenes/GameObjects/Hero/SpriteAtlas.js',
     'src/Game/Scenes/GameObjects/Hero/Animations.js',

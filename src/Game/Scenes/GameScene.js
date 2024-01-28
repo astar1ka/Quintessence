@@ -8,6 +8,8 @@ class GameScene extends Scene {
 
     async preload() {
         await this._load('swords', "./src/assets/sprites/Swords.png");
+        await this._load('menu', "./src/assets/sprites/Menu.png");
+        await this._load('bg', "./src/assets/sprites/Battleground.png");
         await this._load('atk1', "./src/assets/sprites/FireAtk1.png");
         await this._load('atk2', "./src/assets/sprites/FireAtk2.png");
         await this._load('atk3', "./src/assets/sprites/FireAtk3.png");
@@ -15,43 +17,7 @@ class GameScene extends Scene {
         await this._resources.loadSpriteMap("./src/assets/sprites/Hero.png", HeroSpriteAtlas);
         await this._resources.loadSpriteMap("./src/assets/sprites/Goblin.png", GoblinSpriteAtlas);
         await this._resources.loadSpriteMap("./src/assets/sprites/Elements.png", ElementsSpriteAtlas);
-        await this._resources.loadSpriteMap("./src/assets/sprites/SkillMeter.png", [
-            {
-                name: "skill.fire",
-                dx: 0,
-                dy: 0 * he,
-                width: we,
-                height: he
-            },
-            {
-                name: "skill.water",
-                dx: we,
-                dy: 0 * he,
-                width: we,
-                height: he
-            },
-            {
-                name: "skill.nature",
-                dx: we * 2,
-                dy: 0 * he,
-                width: we,
-                height: he
-            },
-            {
-                name: "skill.earth",
-                dx: we * 3,
-                dy: 0 * he,
-                width: we,
-                height: he
-            },
-            {
-                name: "skill.wind",
-                dx: we * 4,
-                dy: 0 * he,
-                width: we,
-                height: he
-            }
-        ]);
+        await this._resources.loadSpriteMap("./src/assets/sprites/SkillMeter.png", ElementsSkillAtlas);
 
         
     }
@@ -74,20 +40,12 @@ class GameScene extends Scene {
     this.player = new Player("1", this.hero, this.enemy);
     this.battleground = new BattleGround(this.player, this.enemy, 7, 7);
 
+    this.createSprite(this.battleground, this.background, 620, 1080);
 
-    const battleground = this.createDiv();
-
-    battleground.props.left = 620;
-    battleground.props.top = 0;
-    battleground.props.width = 620;
-    battleground.props.height = 1080;
-    battleground.props.z = 1;
-    battleground.props.color = "rgba(0,0,0,0.7)";
-    battleground.props.z = 100;
-
-
-
-    this.battleground.element = battleground;
+    this.battleground.element.props.left = 650;
+    this.battleground.element.props.top = 0;
+    this.battleground.element.props.z = 100;
+    this.battleground.element.props.sprite.name = "";
 
     this.battleground.onmousemove = (x, y) => {
         if (this.battleground.drag) {
@@ -99,14 +57,21 @@ class GameScene extends Scene {
 
     this.setInteractive(this.battleground);
 
+    const battleBorder = this.createObject("earthEnd");
+    this.createSprite(battleBorder, this.battleground.element, 620, 620);
+    battleBorder.element.props.left = 0;
+    battleBorder.element.props.top = 100;
+    battleBorder.element.props.z = 10;
+    battleBorder.element.props.sprite.name = "bg";
+
 
     Object.keys(this.battleground.nodes).forEach(nodeId => {
         const obj = new Element(this.battleground.nodes[nodeId], this.battleground);
-        obj.x = 30 + nodeId % 7 * 80;
-        obj.y = 200 + Math.trunc(nodeId / 7) * 80;
+        obj.x = 40 + nodeId % 7 * 80;
+        obj.y = 40 + Math.trunc(nodeId / 7) * 80;
         obj.setScale(0.4);
         this.gameObjects.push(obj);
-        this.createSprite(obj, this.battleground.element, 64, 64);
+        this.createSprite(obj, battleBorder.element, 64, 64);
         obj.element.props.left = obj.x;
         obj.element.props.top = obj.y;
     });
@@ -121,7 +86,7 @@ class GameScene extends Scene {
         const obj = new Element({}, this.battleground);
         this.player.inventory.push(obj);
         obj.x = 110 + i % 7 * 80;
-        obj.y = 850;
+        obj.y = 750;
         obj.setScale(0.4);
         this.gameObjects.push(obj);
         this.createSprite(obj, this.battleground.element, 64, 64);
@@ -162,6 +127,7 @@ class GameScene extends Scene {
             this._render.updateElement(this.battleground.element);
         }
         this.test.push(obj)
+        this._render.updateElement(this.battleground.element)
     }
 
     const energyPoints = []
@@ -217,9 +183,20 @@ class GameScene extends Scene {
     }
 
     this.endTurnButton = new Button("swords", 200, 200, endTurnCallback);
-    this.createSprite(this.endTurnButton, this.battleground.element, 150, 150);
-    this.endTurnButton.element.props.left = 230;
-    this.endTurnButton.element.props.top = 930;
+
+    const elementsPoint = this.createObject("elements");
+    this.createSprite(elementsPoint, this.background.element, 200, 200);
+    elementsPoint.element.props.left = 860;
+    elementsPoint.element.props.top = 850;
+    elementsPoint.element.props.z = 10000;
+    elementsPoint.element.props.sprite.name = "menu";
+    this._render.updateElement(elementsPoint.element);
+    this.gameObjects.push(elementsPoint);
+
+
+    this.createSprite(this.endTurnButton, elementsPoint.element, 100, 100);
+    this.endTurnButton.element.props.left = 55;
+    this.endTurnButton.element.props.top = 50;
     this.endTurnButton.element.props.z = 1000;
     this.endTurnButton.element.props.sprite.name = this.endTurnButton.sprite.name;
     this._render.updateElement(this.endTurnButton.element);
@@ -265,6 +242,51 @@ class GameScene extends Scene {
     enemyHp.props.color = "rgba(0,120,0,0.7)";
     enemyHp.props.z = 100;
     this.player.enemyHpBar = enemyHp;
+
+    this.battleground.lastElement = {}
+
+    const fireEnd = this.createObject("fireEnd");
+    this.createSprite(fireEnd, elementsPoint.element, 32, 32);
+    fireEnd.element.props.left = 12;
+    fireEnd.element.props.top = 60;
+    fireEnd.element.props.z = 1000;
+    fireEnd.element.props.sprite.name = "skill.fire_disabled";
+
+    const waterEnd = this.createObject("waterEnd");
+    this.createSprite(waterEnd, elementsPoint.element, 32, 32);
+    waterEnd.element.props.left = 145;
+    waterEnd.element.props.top = 145;
+    waterEnd.element.props.z = 1000;
+    waterEnd.element.props.sprite.name = "skill.water_disabled";
+
+    const natureEnd = this.createObject("natureEnd");
+    this.createSprite(natureEnd, elementsPoint.element, 32, 32);
+    natureEnd.element.props.left = 83;
+    natureEnd.element.props.top = 8;
+    natureEnd.element.props.z = 1000;
+    natureEnd.element.props.sprite.name = "skill.nature_disabled";
+
+    const windEnd = this.createObject("windEnd");
+    this.createSprite(windEnd, elementsPoint.element, 32, 32);
+    windEnd.element.props.left = 30;
+    windEnd.element.props.top = 145;
+    windEnd.element.props.z = 1000;
+    windEnd.element.props.sprite.name = "skill.wind_disabled";
+
+    const earthEnd = this.createObject("earthEnd");
+    this.createSprite(earthEnd, elementsPoint.element, 32, 32);
+    earthEnd.element.props.left = 165;
+    earthEnd.element.props.top = 60;
+    earthEnd.element.props.z = 1000;
+    earthEnd.element.props.sprite.name = "skill.earth_disabled";
+
+    this.battleground.lastElement.fire = fireEnd;
+    this.battleground.lastElement.water = waterEnd;
+    this.battleground.lastElement.nature = natureEnd;
+    this.battleground.lastElement.wind = windEnd;
+    this.battleground.lastElement.earth = earthEnd;
+
+    this._render.updateElement(elementsPoint.element);
 
     this.gameObjects.push(this.hero);
     this._render.updateElement(this.background);

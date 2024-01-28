@@ -16,7 +16,11 @@ class EventManager{
     }
 
     getObjX(obj){
-        return obj.element.props.left + obj.element.props.parent.props.left;
+        return obj.element.props.left + (obj.element.props.parent.props.left);
+    }
+
+    getObjY(obj){
+        return obj.element.props.top + obj.element.props.parent.props.top;
     }
 
     onMouseEvent(event, x, y){
@@ -24,8 +28,8 @@ class EventManager{
             .sort((a,b) => b.element.props.z - a.element.props.z)
             .find(obj => (this.getObjX(obj)+obj.body.dx <= x 
                 && this.getObjX(obj)+obj.body.dx + obj.body.width>= x
-                && obj.element.props.top+obj.body.dy <= y
-                && obj.element.props.top+obj.body.dy + obj.body.height >= y));
+                && this.getObjY(obj)+obj.body.dy <= y
+                && this.getObjY(obj)+obj.body.dy + obj.body.height >= y));
         if (obj) {
             if(event === "click") obj.onclick();
             if(event === "mousedown") obj.onmousedown();

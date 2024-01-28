@@ -43,6 +43,7 @@ class BattleGround{
 
     newTurn(){
         this.player.restore(this.lastPower);
+        
         Object.values(this.nodes).forEach(node => {
             node.element.setActive(true);
         });
@@ -90,7 +91,14 @@ class BattleGround{
         let point = 0;
         family.forEach(node => point += this.kill(node));
         this.player.setEnergy(power, Math.trunc((point*point+point)/10));
-        return (family.length >=3);
+        if (family.length >=3) {
+            Object.keys(this.lastElement).forEach( element => {
+                this.lastElement[element].element.props.sprite.name = "skill." + element + "_disabled";
+            })
+            this.lastElement[power].element.props.sprite.name = "skill." + power;
+            return true;
+        }
+        return false
     }
 
     update(){
@@ -120,7 +128,7 @@ class BattleGround{
     }*/
 
     getNodeByXY(x,y){
-        const id = Math.trunc((x-30+32)/80)+Math.trunc((y-200+32)/80)*this.width;
+        const id = Math.trunc((x-30+32)/80)+Math.trunc((y-100)/80)*this.width;
         return this.nodes[id]
     }
 
