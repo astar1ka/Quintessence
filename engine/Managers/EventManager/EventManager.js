@@ -3,12 +3,16 @@ class EventManager{
     
     constructor(canvas, scenes){
         this.scenes = scenes;
-        const scaleX = canvas.width/canvas.clientWidth;
-        const scaleY = canvas.height/canvas.clientHeight;
-        canvas.onclick = (event) => this.onMouseEvent('click', event.clientX*scaleX, event.clientY*scaleY);
-        canvas.onpointerdown = (event) => this.onMouseEvent('mousedown', event.clientX*scaleX, event.clientY*scaleY);
-        canvas.onpointerup = (event) => this.onMouseEvent('mouseup', event.clientX*scaleX, event.clientY*scaleY);
-        canvas.onpointermove = (event) => this.onMouseEvent('mousemove', event.clientX*scaleX, event.clientY*scaleY);
+        this.scaleX = canvas.width/canvas.clientWidth;
+        this.scaleY = canvas.height/canvas.clientHeight;
+        canvas.onclick = (event) => this.onMouseEvent('click', event.clientX*this.scaleX, event.clientY*this.scaleY);
+        canvas.onpointerdown = (event) => this.onMouseEvent('mousedown', event.clientX*this.scaleX, event.clientY*this.scaleY);
+        canvas.onpointerup = (event) => this.onMouseEvent('mouseup', event.clientX*this.scaleX, event.clientY*this.scaleY);
+        canvas.onpointermove = (event) => this.onMouseEvent('mousemove', event.clientX*this.scaleX, event.clientY*this.scaleY);
+        window.onresize = () => {
+            this.scaleX = canvas.width/canvas.clientWidth;
+            this.scaleY = canvas.height/canvas.clientHeight;
+        }
     }
 
     addEvent(name){
