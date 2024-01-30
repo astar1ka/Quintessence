@@ -32,7 +32,7 @@ class Canvas {
             this._context.translate(dx,0);
             this._context.scale(-1,1);
         }
-        this._context.drawImage(obj.data.img, dX, obj.data.dy + sy*obj.data.height/obj.original.height,  obj.data.width*scaleX, obj.data.height*scaleY, x, dy, width, height);
+        this._context.drawImage(obj.data.img, dX, obj.data.dy + sy*(obj.data.height/obj.original.height || 1),  obj.data.width*scaleX, obj.data.height*scaleY, x, dy, width, height);
     }
 
     rect(props, dx, dy, width, height, sx, sy){

@@ -4,12 +4,13 @@ class BattleGround{
 
     nodes = {};
     lastPower = "";
+    state = {
+        active: false,
+    }
 
     constructor(player, enemy, width, height = width){
         this.player = player;
         this.enemy = enemy;
-        this.width = width;
-        this.height = height;
         this.width = width;
         this.height = height;
         for(let i=0; i < width*height; i++) this.nodes[i] = new NodeField(i, this._nearlyNodes(i));
@@ -35,19 +36,25 @@ class BattleGround{
     }
 
     newBattle(){
+        this.state.active = true;
         Object.values(this.nodes).forEach(node => {
             node.element.setActive(true);
             this.randomPower(node);
         });
     }
 
-    newTurn(){
+    endTurn(){
+        this.state.active = false;
         this.player.restore(this.lastPower);
-        
+        setTimeout( () => this.newTurn(), 1000);
+    }
+
+    newTurn(){
+        this.state.active = true;
+        this.player.restore(this.lastPower);
         Object.values(this.nodes).forEach(node => {
             node.element.setActive(true);
         });
-
     }
 
     fullCheck(id){
@@ -112,23 +119,8 @@ class BattleGround{
         });
     }
 
-    /*swap(node1,node2){
-        if (this.player.actions > 0 ){
-            const power = node1.element.power;
-            node1.element.setPower(node2.element.power)
-            node2.element.setPower(power);
-            this.player.actions --;
-            this.fullCheck(node1.id);
-            this.fullCheck(node2.id);
-            if (this.player.actions === 0) {
-                this.enemy.attack(this.player.hero);
-                setTimeout(() => this.newBattle(), 1000);
-            }
-        }
-    }*/
-
     getNodeByXY(x,y){
-        const id = Math.trunc((x-30+32)/80)+Math.trunc((y-100)/80)*this.width;
+        const id = Math.trunc((x-30+40)/90)+Math.trunc((y-50)/90)*this.width;
         return this.nodes[id]
     }
 

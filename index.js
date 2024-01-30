@@ -27,8 +27,6 @@ const scripts = [
     'src/Game/Scenes/Screen.js',
     'src/Game/Scenes/GameScene.js',
 
-    //'src/Game/Game.js',
-
     'src/App.js'
 
 

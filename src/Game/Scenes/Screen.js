@@ -21,6 +21,7 @@ class Screen extends Scene{
             this._scenes.play("main");
             this.mainTheme.play();
             this.mainTheme.volume = 0.5;
+            document.body.requestFullscreen();
         })
         this.createSprite(button, this.background,400,100);
         button.element.props.left = 760;

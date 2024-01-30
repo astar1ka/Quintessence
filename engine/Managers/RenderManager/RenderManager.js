@@ -63,8 +63,8 @@ class RenderManager{
             area.top, 
             area.right - area.left, 
             area.bottom - area.top, 
-            (area.left > x) ? area.left - element.props.left : 0, 
-            (area.top > y) ? area.top - element.props.top : 0);
+            (area.left > x) ? area.left - x : 0, 
+            (area.top > y) ? area.top - y : 0);
         element.props.childrens.sort((a,b) => a.props.z - b.props.z).forEach(children => {
             const crossArea = this.getCross(area, this.toArea(children.props,x,y));
             if (crossArea && !children.props.hide){

@@ -26,7 +26,7 @@ class GameScene extends Scene {
     this.hero = new Hero('hero');
     this.createSprite(this.hero, this.background, 1000, 500);
     this.hero.element.props.top = 300;
-    this.hero.element.props.left = -200;
+    this.hero.element.props.left = -250;
     this.hero.element.props.z = 0;
     this.background.props.width = 1920;
     this.background.props.height = 1080;
@@ -35,22 +35,22 @@ class GameScene extends Scene {
     this.enemy = new Goblin;
     this.createSprite(this.enemy, this.background, 600, 600);
     this.enemy.element.props.top = 430;
-    this.enemy.element.props.left = 1300;
+    this.enemy.element.props.left = 1400;
 
     this.player = new Player("1", this.hero, this.enemy);
     this.battleground = new BattleGround(this.player, this.enemy, 7, 7);
 
-    this.createSprite(this.battleground, this.background, 620, 1080);
+    this.createSprite(this.battleground, this.background.element, 690, 1080);
 
-    this.battleground.element.props.left = 650;
+    this.battleground.element.props.left = 615;
     this.battleground.element.props.top = 0;
-    this.battleground.element.props.z = 100;
+    this.battleground.element.props.z = 4;
     this.battleground.element.props.sprite.name = "";
 
     this.battleground.onmousemove = (x, y) => {
         if (this.battleground.drag) {
-            this.battleground.drag.element.props.left = x - this.battleground.element.props.left - 32;
-            this.battleground.drag.element.props.top = y - this.battleground.element.props.top - 32;
+            this.battleground.drag.element.props.left = x - this.battleground.element.props.left - 40;
+            this.battleground.drag.element.props.top = y - this.battleground.element.props.top - 40;
             this._render.updateElement(this.battleground.element)
         };
     }
@@ -58,20 +58,20 @@ class GameScene extends Scene {
     this.setInteractive(this.battleground);
 
     const battleBorder = this.createObject("earthEnd");
-    this.createSprite(battleBorder, this.battleground.element, 620, 620);
+    this.createSprite(battleBorder, this.battleground.element, 690, 690);
     battleBorder.element.props.left = 0;
-    battleBorder.element.props.top = 100;
+    battleBorder.element.props.top = 50;
     battleBorder.element.props.z = 10;
     battleBorder.element.props.sprite.name = "bg";
 
 
     Object.keys(this.battleground.nodes).forEach(nodeId => {
         const obj = new Element(this.battleground.nodes[nodeId], this.battleground);
-        obj.x = 40 + nodeId % 7 * 80;
-        obj.y = 40 + Math.trunc(nodeId / 7) * 80;
+        obj.x = 30 + nodeId % 7 * 90;
+        obj.y = 30 + Math.trunc(nodeId / 7) * 90;
         obj.setScale(0.4);
         this.gameObjects.push(obj);
-        this.createSprite(obj, battleBorder.element, 64, 64);
+        this.createSprite(obj, battleBorder.element, 80, 80);
         obj.element.props.left = obj.x;
         obj.element.props.top = obj.y;
     });
@@ -85,11 +85,11 @@ class GameScene extends Scene {
     for (i = 0; i < 5; i++) {
         const obj = new Element({}, this.battleground);
         this.player.inventory.push(obj);
-        obj.x = 110 + i % 7 * 80;
+        obj.x = 120 + i % 7 * 90;
         obj.y = 750;
         obj.setScale(0.4);
         this.gameObjects.push(obj);
-        this.createSprite(obj, this.battleground.element, 64, 64);
+        this.createSprite(obj, this.battleground.element, 80, 80);
         obj.element.props.left = obj.x;
         obj.element.props.top = obj.y;
         obj.element.props.z = 1000;
