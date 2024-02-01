@@ -1,5 +1,5 @@
-class ResourcesManager extends Manager{
-    constructor(mediator){
+class ResourcesManager extends Manager {
+    constructor(mediator) {
         super(mediator);
         this.mediator.set("GET_IMAGE", (values) => this.getImage(...values));
         this.mediator.set("GET_SOUND", (values) => this.getSound(...values));
@@ -8,30 +8,24 @@ class ResourcesManager extends Manager{
         this.mediator.set("LOAD_SOUND", (values) => this.loadSound(...values));
     }
 
-    saveSource(name, source){
+    saveSource(name, source) {
         this.mediator.call("SAVE_DATA", [name, source]);
     }
 
-    getSource(name){
+    getSource(name) {
         this.mediator.call("GET_DATA", [name]);
     }
 
 
-    createImage(path, dx, dy, width, height){
+    createImage(path) {
         return new Promise((resolve) => {
-            const image = new Image(width, height);
-            image.onload = () => resolve({
-                    img: image,
-                    dx,
-                    dy,
-                    width,
-                    height
-                });
+            const image = new Image();
+            image.onload = () => resolve(image);
             image.src = path;
         });
     }
 
-    createAudio(path){
+    createAudio(path) {
         return new Promise((resolve) => {
             const audio = new Audio;
             audio.onload = () => resolve(audio);
@@ -39,14 +33,20 @@ class ResourcesManager extends Manager{
         });
     }
 
-    async loadImage(name, path, width, height, dx = 0, dy = 0){
-        const images = this.getSource("images");
-        images[name] = await this.createImage(path, dx, dy, width, height);
-        this.saveSource("images", images);
-        return (images[name]);
+    toImageData(img, dx, dy, width, height) {
+        return { img, dx, dy, height, width }
     }
 
-    async loadSound(name, path, volume, loop){
+    async loadImage(name, path, width, height) {
+        const images = this.getSource("images");
+        const image = await this.createImage(path);
+        if (image) {
+            images[name] = this.toImageData(image, 0, 0, width, height);
+            this.saveSource("images", images);
+        }
+    }
+
+    async loadSound(name, path, volume, loop) {
         const sounds = this.getSource("images");
         const audio = await this.createAudio(path);
         sounds[name] = audio;
@@ -57,21 +57,23 @@ class ResourcesManager extends Manager{
         return (audio);
     }
 
-    async loadSpriteMap(path, atlas){
-        let  i = 0;
-        await atlas.forEach( async image => {
-            const {name, dx, dy, width, height} = image;
-            const result = await this.loadImage(name, path, width, height, dx, dy)
-            if (!result) return false;
-        })
-    return true;
+    async loadSpriteMap(path, atlas) {
+        const images = this.getSource("images");
+        const image = await this.createImage(path);
+        if (image) {
+            await atlas.forEach(async sprite => 
+                images[name] = this.toImageData(image, sprite.dx, sprite.dy, sprite.width, sprite.height));
+            this.saveSource("images", images);
+        }
+
+        return true;
     }
 
-    getImage(name){
+    getImage(name) {
         return this.getSource("images")[name];
     }
 
-    getSound(name){
+    getSound(name) {
         return this.getSource("sounds")[name];
     }
 }
