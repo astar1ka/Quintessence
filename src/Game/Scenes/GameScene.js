@@ -14,6 +14,8 @@ class GameScene extends Scene {
         await this._load('atk2', "./src/assets/sprites/FireAtk2.png");
         await this._load('atk3', "./src/assets/sprites/FireAtk3.png");
         await this._load('back_1', "./src/assets/backgrounds/Background_1.png");
+        await this._resources.loadSpriteMap("./src/assets/sprites/Hero_fire.png", HeroSpriteAtlas);
+        await this._resources.loadSpriteMap("./src/assets/sprites/Hero_water.png", HeroSpriteAtlas);
         await this._resources.loadSpriteMap("./src/assets/sprites/Hero.png", HeroSpriteAtlas);
         await this._resources.loadSpriteMap("./src/assets/sprites/Goblin.png", GoblinSpriteAtlas);
         await this._resources.loadSpriteMap("./src/assets/sprites/Elements.png", ElementsSpriteAtlas);
@@ -93,7 +95,7 @@ class GameScene extends Scene {
         obj.element.props.left = obj.x;
         obj.element.props.top = obj.y;
         obj.element.props.z = 1000;
-        obj.setPower("fire");
+        obj.setPower(powers[i]);
         this.setInteractive(obj);
         obj.onmousemove = (x, y) => {
             if (this.battleground.drag) {
@@ -111,13 +113,13 @@ class GameScene extends Scene {
             const node = this.battleground.getNodeByXY(obj.element.props.left, obj.element.props.top);
             obj.element.props.left = obj.x;
             obj.element.props.top = obj.y;
-            if (node) {
+            if (node && node.element.active) {
                 const power = obj.power;
-                const active = node.element.active;
+                //const active = node.element.active;
                 obj.setPower(node.element.power);
-                node.element.setActive(true);
+                //node.element.setActive(true);
                 node.element.setPower(power);
-                node.element.setActive(active);
+                //node.element.setActive(active);
                 if (!this.battleground.turn(node) && active) {
                     node.element.setPower(obj.power);
                     obj.setPower(power);
@@ -289,6 +291,7 @@ class GameScene extends Scene {
     this._render.updateElement(elementsPoint.element);
 
     this.gameObjects.push(this.hero);
+    this.createButton(this.background, "hero1", {width: 512, height:256, left: -150, top: -100}, () => console.log("hero1"), "hero.idle_1");
     this._render.updateElement(this.background);
 }
 

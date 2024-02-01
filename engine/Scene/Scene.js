@@ -37,6 +37,22 @@ class Scene{
         return this._render.createElement("div", parent);
     }
 
+    createButton(parent, name, props, onclick, sprite = ""){
+        const element = this._render.createElement("sprite", parent);
+        const button = this.createObject(name);
+        button.element = element;
+        element.props.left = props.left;
+        element.props.top = props.top;
+        element.props.width = props.width;
+        element.props.height = props.height;
+        element.props.sprite.name = sprite;
+        this.setInteractive(button);
+        button.onclick = onclick;
+        button.onmousemove = () => {};
+        button.onmousedown = () => {};
+        button.onmouseup = () => {};
+    }
+
     async _load(name, src, width, height){
         return await this._resources.load(name, src, width, height);
     }

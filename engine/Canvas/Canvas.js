@@ -9,12 +9,6 @@ class Canvas {
         this._context = this._canvas.getContext("2d");
     }
 
-    clear(area){
-        this._context.fillRect(area.left, area.top, area.right-area.left, area.bottom-area.top);
-        this._context.fill();
-    }
-
-
     check(right, bottom){
         if (this._canvas.width < right) this._canvas.width = right;
         if (this._canvas.height < bottom) this._canvas.height = bottom;

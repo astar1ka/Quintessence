@@ -18,11 +18,16 @@ class Game{
     constructor(config){
         const gameScreen = document.getElementById(config.canvas);
         this.timer = new Timer;
-        
         this.managers = {};
         this.gameScreen = gameScreen;
         this.gameScreen.width = config.width;
         this.gameScreen.height = config.height;
+
+        window.onresize = () => {
+            this.CONST.scaleX = this.gameScreen.width / this.gameScreen.clientWidth;
+            this.CONST.scaleY = this.gameScreen.height/this.gameScreen.clientHeight;
+        }
+
         //this.SceneManager = new SceneManager(config.scenes, this.gameScreen);
         this.registrationManagers(gameScreen,config);
     }
