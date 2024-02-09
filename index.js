@@ -22,9 +22,13 @@ const scripts = [
     'src/Game/Scenes/GameObjects/Node.js',
     'src/Game/Scenes/GameObjects/BattleGround.js',
 
+    'src/Game/Scenes/GameObjects/NewGame/Hero.js',
+    'src/Game/Scenes/GameObjects/NewGame/Animations.js',
+    'src/Game/Scenes/GameObjects/NewGame/Ground_atlas.js',
 
     'src/Game/Scenes/Methods/LoadSources.js',
     'src/Game/Scenes/Screen.js',
+    'src/Game/Scenes/NewGame.js',
     'src/Game/Scenes/GameScene.js',
 
     'src/App.js'

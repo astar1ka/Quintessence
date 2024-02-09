@@ -1,4 +1,4 @@
-class Hero extends SceneObject{
+class Hero2 extends SceneObject{
 
     animation = {
         step: 1,
@@ -24,11 +24,13 @@ class Hero extends SceneObject{
     maxHp = 15;
     alive = true;
     shield = 0;
+    speed = {x: 0, y: 0};
+    target = {x: 0, y: 0}
 
     constructor(spritesName){
         super(spritesName,512,256);
         this.spritesName = spritesName;
-        this.animations = HeroAnimations;
+        this.animations = GroundHeroAnimations;
         this.setAnimation('idle');
         this.power = "fire";
         this.body = {
@@ -43,12 +45,36 @@ class Hero extends SceneObject{
         if (this.alive) {
             this.animation.step ++;
             if (this.animation.step >= this.animations[this.animation.name].maxStep)
-                if (this.animation.name !="dead") 
-                this.setAnimation(this.animation.base)
+                if (this.animation.name !="dead"){
+                    if (this.animation.name ==="walk") this.animation.step = 1;
+                    else this.setAnimation(this.animation.base)
+                } 
+                
                 else
-                this.alive = false;
+                this.alive = false
                 this.updateSprite();
         }
+    }
+
+    walk(){
+        const dx = Math.abs(this.target.x - this.element.props.left);
+        const dy = Math.abs(this.target.y - this.element.props.top);
+        if (dx > 5 || dy > 5){
+            this.element.props.left += this.speed.x;
+            this.element.props.top += this.speed.y;
+        } else if (this.animation.name === "walk") this.setAnimation(this.animation.base)
+
+    }
+
+    goto(x,y){
+        this.setAnimation("walk");
+        const dx = x - this.element.props.left;
+        const dy = y - this.element.props.top;
+        this.element.props.reverse = (dx < 0);
+        const len = Math.sqrt(dx*dx+dy*dy);
+        this.target = {x,y};
+        this.speed.x = 8*dx/len;
+        this.speed.y = 8*dy/len;
     }
 
     updateSprite(){

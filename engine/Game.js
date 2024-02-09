@@ -44,6 +44,7 @@ class Game{
 
     async run(){
         this.updateId = this.timer.add(() => this.update(), 0, 30);
+        this.render();
         /*this.managers.events.subscribe('click', (event) => this.managers.scenes.getActiveScene().mouseEvent("click", event.clientX, event.clientY));
         this.managers.events.subscribe('mouseup', (event) => this.managers.scenes.getActiveScene().mouseEvent("mouseup", event.clientX, event.clientY));
         this.managers.events.subscribe('mousedown', (event) => this.managers.scenes.getActiveScene().mouseEvent("mousedown", event.clientX, event.clientY));
@@ -63,5 +64,9 @@ class Game{
         this.managers.scenes.getActiveScene().update();
     }
 
+    render(){
+        //gameScreen.getContext("2d").drawImage(, 0, 0);
+        requestAnimationFrame(()=> this.render());
+    }
 
 }

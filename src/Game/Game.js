@@ -11,13 +11,4 @@ async function Game(mediator){
         delay: 0,
         interval: 30
     });
-
-    function render(){
-        if (hash != gameScene.hash){
-            gameScreen.getContext("2d").drawImage(gameScene._canvas._canvas, 0, 0);
-            hash = gameScene.hash;
-        }
-        requestAnimationFrame(()=> render());
-    }
-    render();
 }

@@ -120,7 +120,7 @@ class GameScene extends Scene {
                 //node.element.setActive(true);
                 node.element.setPower(power);
                 //node.element.setActive(active);
-                if (!this.battleground.turn(node) && active) {
+                if (!this.battleground.turn(node)) {
                     node.element.setPower(obj.power);
                     obj.setPower(power);
                 }

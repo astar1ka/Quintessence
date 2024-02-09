@@ -22,7 +22,7 @@ class Canvas {
         let x = dx;
         if (obj.reverse) {
             x = -width;
-            dX = obj.data.img.width - dX - obj.data.width*width/obj.original.width;
+            //dX = obj.data.img.width - dX - obj.data.width*width/obj.original.width;
             this._context.translate(dx,0);
             this._context.scale(-1,1);
         }
