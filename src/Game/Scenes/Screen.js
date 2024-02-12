@@ -17,11 +17,12 @@ class Screen extends Scene{
     }
 
     async create(){
-        const button = new Button("button", 300, 200, () => {
-            this._scenes.play("main");
+        const button = new Button("button", 300, 200, async () => {
+            await this._scenes.play("main");
             this.mainTheme.play();
-            this.mainTheme.volume = 0.5;
-            document.body.requestFullscreen();
+            this.mainTheme.volume = 0.2;
+            console.log(this._scenes)
+            //document.body.requestFullscreen();
         })
         this.createSprite(button, this.background,400,100);
         button.element.props.left = 760;

@@ -7,9 +7,10 @@ class GameScene extends Scene {
 
 
     async preload() {
-        await this._load('swords', "./src/assets/sprites/Swords.png");
-        await this._load('menu', "./src/assets/sprites/Menu.png");
         await this._load('bg', "./src/assets/sprites/Battleground.png");
+        await this._load('menu', "./src/assets/sprites/Menu.png");
+        await this._load('swords', "./src/assets/sprites/Swords.png");
+        
         await this._load('atk1', "./src/assets/sprites/FireAtk1.png");
         await this._load('atk2', "./src/assets/sprites/FireAtk2.png");
         await this._load('atk3', "./src/assets/sprites/FireAtk3.png");

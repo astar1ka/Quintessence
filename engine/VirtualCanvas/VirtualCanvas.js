@@ -1,12 +1,6 @@
 class VirtualCanvas{
-    constructor(){
-        this.body = createElement('body');
-        this.updateArea = {
-            left: 0,
-            top: 0,
-            width: 0,
-            height: 0
-        }
+    constructor(width, height){
+        this.body = Engine.Elements.Body.create({width, height});
     }
 
     getElements(left, top, width, height, element = this.body){
