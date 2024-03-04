@@ -1,5 +1,4 @@
 [
-
     'engine/VirtualCanvas/createElement.js',
 
     'engine/Managers/EventManager/EventManager.js',
@@ -16,6 +15,7 @@ class Game{
 
     constructor(config){
         const gameScreen = document.getElementById(config.canvas);
+        gameScreen.getContext("2d").imageSmoothingEnabled = false;
         this.timer = new Timer;
         this.managers = {};
         this.gameScreen = gameScreen;
@@ -66,6 +66,14 @@ class Game{
     render(){
         //gameScreen.getContext("2d").drawImage(, 0, 0);
         //requestAnimationFrame(()=> this.render());
+    }
+
+    save(){
+
+    }
+
+    load(){
+        
     }
 
 }

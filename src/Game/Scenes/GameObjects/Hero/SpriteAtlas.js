@@ -1,12 +1,12 @@
-const w = 512;
-const h = 256;
+const w = 288*4;
+const h = 128*4;
 
 const HeroSpriteAtlas = [];
 for(i=1; i < 9; i++) HeroSpriteAtlas.push(
     {
         name: "hero.idle_" + i,
         dx: (i-1)*w,
-        dy: 0,
+        dy: 0*h,
         width: w,
         height: h
     }
@@ -16,7 +16,7 @@ for(i=1; i < 12; i++) HeroSpriteAtlas.push(
     {
         name: "hero.atk1_" + i,
         dx: (i-1)*w,
-        dy: h,
+        dy: 7*h,
         width: w,
         height: h
     }
@@ -26,7 +26,7 @@ for(i=1; i < 11; i++) HeroSpriteAtlas.push(
     {
         name: "hero.atk2_" + i,
         dx: (i-1)*w,
-        dy: 2*h,
+        dy: 8*h,
         width: w,
         height: h
     }
@@ -36,7 +36,7 @@ for(i=1; i < 12; i++) HeroSpriteAtlas.push(
     {
         name: "hero.atk3_" + i,
         dx: (i-1)*w,
-        dy: 3*h,
+        dy: 9*h,
         width: w,
         height: h
     }

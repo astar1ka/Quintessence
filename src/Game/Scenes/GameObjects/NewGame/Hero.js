@@ -2,7 +2,7 @@ class Hero2 extends SceneObject{
 
     animation = {
         step: 1,
-        name: 'idle',
+        name: 'jump',
         base: 'idle'
     }
 
@@ -67,7 +67,7 @@ class Hero2 extends SceneObject{
     }
 
     goto(x,y){
-        this.setAnimation("walk");
+        this.setAnimation("jump");
         const dx = x - this.element.props.left;
         const dy = y - this.element.props.top;
         this.element.props.reverse = (dx < 0);

@@ -1,3 +1,7 @@
+importScript('src/Game/Scenes/GameObjects/NewGame/Hero.js');
+importScript('src/Game/Scenes/GameObjects/NewGame/Animations.js');
+importScript('src/Game/Scenes/GameObjects/NewGame/Ground_atlas.js');
+
 class NewGame extends Scene{
     constructor(name) {
         super(name);
@@ -18,8 +22,8 @@ class NewGame extends Scene{
         this.background.props.height = 1080;
         this.background.props.sprite.name = "back";
         const hero = new Hero2("ground_hero");
-        this.createSprite(hero, this.background, 700, 350);
-        hero.element.props.left = 100;
+        this.createSprite(hero, this.background, 900, 400);
+        hero.element.props.left = 200;
         hero.element.props.top = 100;
         hero.element.props.sprite.name = "ground_hero.idle_1";
         console.log(hero);
@@ -34,7 +38,8 @@ class NewGame extends Scene{
         bg2.element.props.sprite.name = "bg2"
         bg2.element.props.hide = true;
         pole.onclick = () => {
-            hero.goto(pointer.x, pointer.y);
+            hero.goto(0, 100);
+            setTimeout(() => hero.element.props.top = 90, 100);
         }
         pole.onmousemove = (x,y) => {
             pointer.x = x - 350;

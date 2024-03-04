@@ -19,11 +19,8 @@ function createElement(type, parent = null) {
             break;
         }
         case 'text': {
-            element.props.font = {
-                size: 0,
-                family: '',
-                color: 'black',
-            };
+            element.props.font = "Tahoma 12px";
+            element.props.text = "";
             break;
         }
         case 'div': {

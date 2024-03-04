@@ -7,11 +7,18 @@ class Canvas {
         this._precanvas.width = 1000;
         this._precanvas.height = 1000;
         this._context = this._canvas.getContext("2d");
+        this._context.imageSmoothingEnabled = false;
+        this.baseFont = "12px serif"
     }
 
     check(right, bottom){
         if (this._canvas.width < right) this._canvas.width = right;
         if (this._canvas.height < bottom) this._canvas.height = bottom;
+    }
+
+    write(x,y,text,font = this.baseFont){
+        this._context.font = font;
+        this._context.fillText(text, x, y)
     }
 
     draw(obj, dx, dy, width, height, sx, sy){
@@ -55,6 +62,8 @@ class Canvas {
             case'sprite': this.draw(props, dx, dy, width, height, sx, sy);
                 break;
             case'div': this.rect(props, dx, dy, width, height, sx, sy);
+                break;
+            case 'text': this.write(dx, dy, props.text, props.font);
                 break;
         }
         this._context.restore();

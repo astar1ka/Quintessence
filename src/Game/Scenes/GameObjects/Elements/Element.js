@@ -11,15 +11,15 @@ class Element extends SceneObject{
     }
 
     setPower(power){
-        if (this.active){
             this.power = power;
             this.element.props.sprite.name = power;
-        }
     }
 
     setActive(active){
-        this.active = active;
-        this.element.props.sprite.name = (this.active) ? this.power : (this.power + "_destroy");
+        if (this.active != active) {
+            this.active = active;
+            this.element.props.sprite.name = (this.active) ? this.power : (this.power + "_destroy");
+        }
     }
 
     select(){

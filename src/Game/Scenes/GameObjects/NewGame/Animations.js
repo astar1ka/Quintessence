@@ -35,4 +35,8 @@ const GroundHeroAnimations = {
         maxStep: 51,
         stepOnFrame: 4
     },
+    jump: {
+        maxStep:35,
+        stepOnFrame: 6
+    }
 }

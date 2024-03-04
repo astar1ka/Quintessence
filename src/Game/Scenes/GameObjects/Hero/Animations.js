@@ -4,7 +4,7 @@ const HeroAnimations = {
         stepOnFrame: 4
     },
     atk1: {
-        maxStep: 43,
+        maxStep: 39,
         stepOnFrame: 4
     },
     atk2: {

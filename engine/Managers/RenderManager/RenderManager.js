@@ -74,7 +74,10 @@ class RenderManager{
     }
 
     render(){
-        this.gameScreen.getContext("2d").drawImage(this.canvas._canvas,this.camera.left, this.camera.top, this.camera.width, this.camera.height, 0, 0, this.camera.width, this.camera.height);
+        const ctx = this.gameScreen.getContext("2d");
+        ctx.imageSmoothingEnabled = false;
+        ctx.mozImageSmoothingEnabled = false;
+        ctx.drawImage(this.canvas._canvas,this.camera.left, this.camera.top, this.camera.width, this.camera.height, 0, 0, this.camera.width, this.camera.height);
     }
 
     async updateElement(element){

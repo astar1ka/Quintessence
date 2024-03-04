@@ -28,7 +28,7 @@ class SceneManager{
     }
 
     render(){
-
+        
     }
 
     destroy(){

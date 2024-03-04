@@ -5,6 +5,7 @@ class NodeField{
     constructor(id,paths){
         this.id = id;
         this.paths = paths;
+        this.selected = false;
     }
 
     canMove(node){

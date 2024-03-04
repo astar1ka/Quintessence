@@ -9,6 +9,7 @@ class Scene{
 
     setInteractive(obj){
         this.interactiveObjects.push(obj);
+        //Убрать
         obj.body = {
             dx: 0,
             dy: 0,
@@ -25,10 +26,10 @@ class Scene{
         this.background = this._render.createElement("sprite");
     }
 
+    //Убрать
     createSprite(logic, parent = this.background, width = 0, height = 0){
         const element = this._render.createElement("sprite", parent);
         logic.element = element;
-        //logic.updateSprite();
         element.props.width = width;
         element.props.height = height;
     }

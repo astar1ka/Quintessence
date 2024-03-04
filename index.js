@@ -1,15 +1,15 @@
+function importScript(scriptPath){
+    document.write(`<script src='${scriptPath}'></script>`);
+}
+
+importScript('src/App.js');
+
 const scripts = [
-    'engine/Game.js',
-    
-    'src/Game/Scenes/SceneObjects/SceneObject.js',
-
-    'src/Workers/Mediator/Mediator.js',
-
-    'src/Workers/Timer/Timer.js',
 
     'src/Game/Scenes/GameObjects/Button/Button.js',
 
     'src/Game/Scenes/GameObjects/Elements/SpriteAtlas.js',
+    'src/Game/Scenes/GameObjects/Elements/ActionsSpriteAltas.js',
     'src/Game/Scenes/GameObjects/Elements/SpriteSkillAtlas.js',
     'src/Game/Scenes/GameObjects/Elements/Element.js',
     'src/Game/Scenes/GameObjects/Hero/SpriteAtlas.js',
@@ -21,23 +21,11 @@ const scripts = [
     'src/Game/Scenes/GameObjects/Player/Player.js',
     'src/Game/Scenes/GameObjects/Node.js',
     'src/Game/Scenes/GameObjects/BattleGround.js',
-
-    'src/Game/Scenes/GameObjects/NewGame/Hero.js',
-    'src/Game/Scenes/GameObjects/NewGame/Animations.js',
-    'src/Game/Scenes/GameObjects/NewGame/Ground_atlas.js',
-
-    'src/Game/Scenes/Methods/LoadSources.js',
-    'src/Game/Scenes/Screen.js',
-    'src/Game/Scenes/NewGame.js',
-    'src/Game/Scenes/GameScene.js',
-
-    'src/App.js'
-
-
 ];
 
-scripts.forEach(script =>
-    document.write(`<script src='${script}'></script>`));
+scripts.forEach(script => importScript(script));
+
+
 
 window.onload = () => {
     App();

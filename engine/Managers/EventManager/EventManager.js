@@ -1,5 +1,6 @@
 class EventManager{
     __events = {};
+    activeElement = null;
     
     constructor(canvas, scenes){
         this.scenes = scenes;
@@ -13,6 +14,7 @@ class EventManager{
             this.scaleX = canvas.width/canvas.clientWidth;
             this.scaleY = canvas.height/canvas.clientHeight;
         }
+
     }
 
     addEvent(name){
@@ -27,18 +29,37 @@ class EventManager{
         return obj.element.props.top + obj.element.props.parent.props.top;
     }
 
+    isInside(obj, x, y){
+        const X = this.getObjX(obj)+obj.body.dx;
+        const Y = this.getObjY(obj)+obj.body.dy;
+        const result = ( X <= x 
+        && X + obj.body.width >= x
+        && Y <= y
+        && Y + obj.body.height >= y);
+        return result;
+    }
+
+    getActiveElement(){
+
+    }
+
     onMouseEvent(event, x, y){
         const obj = this.scenes.getActiveScene().interactiveObjects
-            .sort((a,b) => b.element.props.z - a.element.props.z)
-            .find(obj => (this.getObjX(obj)+obj.body.dx <= x 
-                && this.getObjX(obj)+obj.body.dx + obj.body.width>= x
-                && this.getObjY(obj)+obj.body.dy <= y
-                && this.getObjY(obj)+obj.body.dy + obj.body.height >= y));
-        if (obj) {
-            if(event === "click") obj.onclick();
-            if(event === "mousedown") obj.onmousedown();
-            if(event === "mouseup") obj.onmouseup();
-            if(event === "mousemove") obj.onmousemove(x,y);
+        .sort((a,b) => b.element.props.z - a.element.props.z)
+        .find(obj => this.isInside(obj, x, y));
+        if (this.activeElement && (this.activeElement != obj || !this.isInside(this.activeElement, x, y))){
+            if (this.activeElement.onmouseout && this.activeElement.onmouseout instanceof Function) this.activeElement.onmouseout();
+            if (obj) {
+                if (obj.onmousein && obj.onmousein instanceof Function) obj.onmousein();
+            }
+            this.activeElement = null;
+        }
+        if (obj){
+            this.activeElement = obj;
+            if(event === "click") this.activeElement.onclick(x,y);
+            if(event === "mousedown") this.activeElement.onmousedown(x,y);
+            if(event === "mouseup") this.activeElement.onmouseup(x,y);
+            if(event === "mousemove") this.activeElement.onmousemove(x,y);
         }
     }
 

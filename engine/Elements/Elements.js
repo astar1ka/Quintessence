@@ -1,7 +1,3 @@
-
-
-
-
 class Elements{
     Body = {create: (props) => this._create("body",props)}
 
@@ -23,7 +19,7 @@ class Elements{
         })
     }
 
-    _observe(props,){
+    _observe(props){
 
     }
 

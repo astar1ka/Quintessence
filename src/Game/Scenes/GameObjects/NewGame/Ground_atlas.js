@@ -1,5 +1,5 @@
-const gw = 576;
-const gh = 256;
+const gw = 288;
+const gh = 128;
 
 const GroundSpriteAtlas = [];
 for(i=1; i < 7; i++) GroundSpriteAtlas.push(
@@ -47,6 +47,26 @@ for(i=1; i < 24; i++) GroundSpriteAtlas.push(
         name: "ground_hero.atk3_" + i,
         dx: (i-1)*gw,
         dy: 4*gh,
+        width: gw,
+        height: gh
+    }
+);
+
+for(i=1; i < 4; i++) GroundSpriteAtlas.push(
+    {
+        name: "ground_hero.jump_" + i,
+        dx: (i-1)*gw,
+        dy: 2*gh,
+        width: gw,
+        height: gh
+    }
+);
+
+for(i=1; i < 4; i++) GroundSpriteAtlas.push(
+    {
+        name: "ground_hero.jump_" + (i+3),
+        dx: (i-1)*gw,
+        dy: 3*gh,
         width: gw,
         height: gh
     }

@@ -58,15 +58,14 @@ class Hero extends SceneObject{
     setAnimation(name){
         this.animation.step = 1;
         this.animation.name = name;
+        //this.element.props.z = 10;
     }
 
-    attack(enemy, energy, type){
-        if (energy[this.power] >= this.costs[type]) {
+    attack(enemy, type){
             this.setAnimation(type);
+            this.element.props.z = 15;
             enemy.damage(this.dmg[type])
             return -1*this.costs[type];
-        }
-        return 0;
     }
 
     damage(dmg){
